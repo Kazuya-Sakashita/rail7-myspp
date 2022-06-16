@@ -1,0 +1,117 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <a class="navbar-brand" href="#">Navbar</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNav">
+    <ul class="navbar-nav">
+      <% if user_signed_in? %>
+        <li class="nav-item active">
+          <%= link_to('Logout', destroy_user_session_path, data: { turbo_method: :delete }) %>
+        </li>
+      <% else %>
+        <li class="nav-item active">
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#signUpModal">
+          Sign Up
+        </button>
+          <a class="nav-link" data-bs-toggle="modal" data-target="#signUpModal">Sign Up</span></a>
+        </li>
+        <li class="nav-item">
+        <!-- Button trigger modal -->
+         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#logInModal">
+          Login
+        </button>
+        </li>
+      <% end %>
+    </ul>
+  </div>
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="logInModal">
+      <div class="modal-dialog">
+        <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">Log In</h5>
+
+              </div>
+              <div class="modal-body">    
+                    <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+                        <div class="wrap">
+                              <div class="field">
+                                <label for="name">Name</label><br />
+                                <%= f.text_field :name %>
+                              </div>
+
+                             <div class="field">
+                                <label for="password">Password</label><br />
+                                <%= f.password_field :password, autocomplete: "off" %>
+                              </div><br>
+
+                              <div>
+                                  <% if devise_mapping.rememberable? -%>
+                                    <div class="field">
+                                          <%= f.check_box :remember_me %>
+                                          <%= f.label :remember_me %>
+                                    </div>
+                                  <% end -%>     
+                              </div>
+
+                            <div>
+                              <%= f.submit "Log in", class: 'btn btn-primary' %>
+                              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+
+                            </div> 
+                            <div>
+                                <% render "devise/shared/links" %>
+                            </div>
+
+                        </div>
+                      <% end %>
+                </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="signUpModal">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+          <h5 class="modal-title">Sign Up</h5>
+      </div>
+      <div class="modal-body">
+        <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+          <%= devise_error_messages! %>
+
+          <div class="field">
+            <%= f.label :name %><br />
+            <%= f.text_field :name, autofocus: true, autocomplete: "name", size: "30" %>
+          </div>
+
+          <div class="field">
+            <%= f.label :password %>
+            <% if @minimum_password_length %>
+              <em>(<%= @minimum_password_length %> characters minimum)</em>
+            <% end %><br />
+            <%= f.password_field :password, autocomplete: "off", size: "30" %>
+          </div>
+
+          <div class="field">
+            <%= f.label :password_confirmation %><br />
+            <%= f.password_field :password_confirmation, autocomplete: "off", size: "30" %>
+          </div>
+
+          <div class="actions">
+            <%= f.submit "Sign up", class: 'btn btn-primary' %>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+</nav>

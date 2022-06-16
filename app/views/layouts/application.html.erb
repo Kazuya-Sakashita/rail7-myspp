@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Rail7Myspp</title>
+    <title>DeviseModals</title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
@@ -11,7 +11,11 @@
   </head>
 
   <body>
-  <%= render "layouts/header" %>
+  <%= render "layouts/navbar" %>
     <%= yield %>
+    <% unless user_signed_in? %>
+      <%= render partial: 'devise/registrations/new' %>
+      <%= render partial: 'devise/sessions/new' %>
+    <% end %>
   </body>
 </html>
